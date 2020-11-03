@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
-import java.util.stream.Stream;
 
 @Component
 public class ShopPlus implements Shop {
@@ -25,7 +24,7 @@ public class ShopPlus implements Shop {
     }
 
     private BigDecimal calculateVat() {
-        return new BigDecimal(total * vat / 100).setScale(2, RoundingMode.HALF_DOWN);
+        return BigDecimal.valueOf(total * vat / 100).setScale(2, RoundingMode.HALF_DOWN);
     }
 
     private BigDecimal getFinalPrice() {

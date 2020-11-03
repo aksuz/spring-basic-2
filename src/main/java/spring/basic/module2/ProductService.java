@@ -33,10 +33,8 @@ public class ProductService {
         double maximumPrice = 300d;
 
         double randomNumber = minimumPrice + new Random().nextDouble() * (maximumPrice - minimumPrice);
-        BigDecimal roundedNumber = new BigDecimal(randomNumber).setScale(2, RoundingMode.HALF_UP);
-        double randomPrice = roundedNumber.doubleValue();
-
-        return randomPrice;
+        BigDecimal roundedNumber = BigDecimal.valueOf(randomNumber).setScale(2, RoundingMode.HALF_UP);
+        return roundedNumber.doubleValue();
     }
 
     public List<Product> getCart() {

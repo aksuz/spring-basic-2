@@ -26,11 +26,11 @@ public class ShopPro implements Shop {
     }
 
     private BigDecimal calculateVat() {
-        return new BigDecimal(total * vat / 100).setScale(2, RoundingMode.HALF_DOWN);
+        return BigDecimal.valueOf(total * vat / 100).setScale(2, RoundingMode.HALF_DOWN);
     }
 
     private BigDecimal calculateDiscount() {
-        return new BigDecimal(total * discount / 100).setScale(2, RoundingMode.HALF_DOWN);
+        return BigDecimal.valueOf(total * discount / 100).setScale(2, RoundingMode.HALF_DOWN);
     }
 
     private BigDecimal getFinalPrice() {
