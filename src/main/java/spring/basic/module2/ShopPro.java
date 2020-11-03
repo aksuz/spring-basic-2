@@ -3,6 +3,8 @@ package spring.basic.module2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 @Component
@@ -17,24 +19,32 @@ public class ShopPro implements Shop {
 
     @Override
     public double calculateTotalPrice(List<Product> cart) {
-        double sum = 0;
-        for (Product product : cart) {
-            sum += product.getPrice();
-        }
-        total = sum + getVat(sum) - getDiscount(sum);
+        total = cart.stream()
+                .mapToDouble(Product::getPrice)
+                .sum();
         return total;
+    }
+
+    private BigDecimal calculateVat() {
+        return new BigDecimal(total * vat / 100).setScale(2, RoundingMode.HALF_DOWN);
+    }
+
+    private BigDecimal calculateDiscount() {
+        return new BigDecimal(total * discount / 100).setScale(2, RoundingMode.HALF_DOWN);
+    }
+
+    private BigDecimal getFinalPrice() {
+        BigDecimal finalPrice = BigDecimal.valueOf(total).add(calculateVat()).subtract(calculateDiscount());
+        return finalPrice.setScale(2, RoundingMode.HALF_DOWN);
     }
 
     @Override
     public void displayTotalPrice() {
-        System.out.println("Shop PRO - total price = " + total);
-    }
-
-    private double getDiscount(double total) {
-        return total * discount / 100;
-    }
-
-    private double getVat(double total) {
-        return total * vat / 100;
+        System.out.println();
+        System.out.println("Shop PLUS");
+        System.out.println("- total price = " + total);
+        System.out.println("- vat = " + calculateVat());
+        System.out.println("- discount = " + calculateDiscount());
+        System.out.println("Final price = " + getFinalPrice());
     }
 }

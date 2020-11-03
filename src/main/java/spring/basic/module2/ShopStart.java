@@ -10,14 +10,17 @@ public class ShopStart implements Shop {
 
     @Override
     public double calculateTotalPrice(List<Product> cart) {
-        for (Product product : cart) {
-            total += product.getPrice();
-        }
+        total = cart.stream()
+                .mapToDouble(Product::getPrice)
+                .sum();
         return total;
     }
 
     @Override
     public void displayTotalPrice() {
-        System.out.println("Shop START - total price = " + total);
+        System.out.println();
+        System.out.println("Shop PLUS");
+        System.out.println("- total price = " + total);
     }
+
 }

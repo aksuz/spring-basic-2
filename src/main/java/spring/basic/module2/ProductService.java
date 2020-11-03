@@ -1,8 +1,5 @@
 package spring.basic.module2;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -15,12 +12,6 @@ import java.util.Random;
 public class ProductService {
 
     private List<Product> cart;
-    @Autowired
-    private ShopStart shopStart;
-    @Autowired
-    private ShopPlus shopPlus;
-    @Autowired
-    private ShopPro shopPro;
 
     public ProductService() {
         Product p1 = new Product("product1", getRandomPrice());
@@ -37,18 +28,6 @@ public class ProductService {
         cart.add(p5);
     }
 
-    @EventListener(ApplicationReadyEvent.class)
-    public void showCart() {
-        shopStart.calculateTotalPrice(cart);
-        shopStart.displayTotalPrice();
-
-        shopPlus.calculateTotalPrice(cart);
-        shopPlus.displayTotalPrice();
-
-        shopPro.calculateTotalPrice(cart);
-        shopPro.displayTotalPrice();
-    }
-
     private double getRandomPrice() {
         double minimumPrice = 50d;
         double maximumPrice = 300d;
@@ -58,5 +37,9 @@ public class ProductService {
         double randomPrice = roundedNumber.doubleValue();
 
         return randomPrice;
+    }
+
+    public List<Product> getCart() {
+        return cart;
     }
 }
