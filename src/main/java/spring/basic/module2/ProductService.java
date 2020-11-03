@@ -1,5 +1,6 @@
 package spring.basic.module2;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,12 @@ import java.util.Random;
 public class ProductService {
 
     private List<Product> cart;
+    @Autowired
+    private ShopStart shopStart;
+    @Autowired
+    private ShopPlus shopPlus;
+    @Autowired
+    private ShopPro shopPro;
 
     public ProductService() {
         Product p1 = new Product("product1", getRandomPrice());
@@ -32,17 +39,14 @@ public class ProductService {
 
     @EventListener(ApplicationReadyEvent.class)
     public void showCart() {
-        Shop s1 = new ShopStart();
-        s1.calculateTotalPrice(cart);
-        s1.displayTotalPrice();
+        shopStart.calculateTotalPrice(cart);
+        shopStart.displayTotalPrice();
 
-        Shop s2 = new ShopPlus();
-        s2.calculateTotalPrice(cart);
-        s2.displayTotalPrice();
+        shopPlus.calculateTotalPrice(cart);
+        shopPlus.displayTotalPrice();
 
-        Shop s3 = new ShopPro();
-        s3.calculateTotalPrice(cart);
-        s3.displayTotalPrice();
+        shopPro.calculateTotalPrice(cart);
+        shopPro.displayTotalPrice();
     }
 
     private double getRandomPrice() {
